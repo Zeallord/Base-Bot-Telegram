@@ -44,7 +44,6 @@ kamu buat callbacknya mirip seperti di handler, apakah terpanggil tentu saja ter
 */
 
 const { Markup } = require('telegraf');
-const stateManager = require('../lib/stateManager');
 const checkRole = require('../lib/checkRole')
 module.exports = (bot) => {
 
@@ -84,82 +83,6 @@ Silakan pilih menu berikut:`,
         } catch (err) {
             console.error(err);
         }
-    });
-
-    // Contoh pembuatan button di keyboard
-    /* 🎮 Mode Game */
-    bot.command('game', async (ctx) => {
-        /* Simpan state user: step = game_mode */
-        stateManager.setState(ctx.from.id, { step: 'game_mode' });
-
-        /* Tampilkan pilihan game dalam keyboard */
-        await ctx.reply('🎮 Pilih Game:', Markup.keyboard([
-            ['1', '2', '3'],
-            ['4', '5'],
-            ['🔙 Kembali']
-        ]).resize());
-    });
-
-    /* 📱 Mode Pulsa */
-    bot.command('pulsa', async (ctx) => {
-        /* Simpan state user: step = pulsa_mode */
-        stateManager.setState(ctx.from.id, { step: 'pulsa_mode' });
-
-        /* Tampilkan pilihan operator */
-        await ctx.reply('📱 Pilih Operator:', Markup.keyboard([
-            ['1', '2', '3'],
-            ['🔙 Kembali']
-        ]).resize());
-    });
-
-    /* 🔙 Tombol Kembali ke menu utama */
-    bot.hears('🔙 Kembali', async (ctx) => {
-        /* Hapus state user (kembali ke awal) */
-        stateManager.deleteState(ctx.from.id);
-
-        /* Tampilkan pesan + hapus keyboard */
-        await ctx.reply('Kembali ke menu utama.', Markup.removeKeyboard());
-    });
-
-    /* Tangani tombol angka 1–5 */
-    bot.hears(['1','2','3','4','5'], async (ctx) => {
-        /* Ambil state user saat ini */
-        const state = stateManager.getState(ctx.from.id);
-        const input = ctx.message.text;
-
-        /* Jika user belum dalam mode (state kosong), suruh ketik /game atau /pulsa */
-        if (!state) {
-            return ctx.reply('Silakan ketik /game atau /pulsa dulu.');
-        }
-
-        /* Jika user sedang dalam mode game */
-        if (state.step === 'game_mode') {
-            const games = {
-                '1': 'Free Fire',
-                '2': 'Mobile Legends',
-                '3': 'PUBG',
-                '4': 'Valorant',
-                '5': 'CODM'
-            };
-
-            /* Kirim respon sesuai game yg dipilih */
-            await ctx.reply(`🎮 Kamu pilih game: ${games[input] || 'Tidak dikenali'}`);
-        }
-
-        /* Jika user sedang dalam mode pulsa */
-        if (state.step === 'pulsa_mode') {
-            const operators = {
-                '1': 'Telkomsel',
-                '2': 'XL',
-                '3': 'Indosat'
-            };
-
-            /* Kirim respon sesuai operator yg dipilih */
-            await ctx.reply(`📱 Kamu pilih operator: ${operators[input] || 'Tidak dikenali'}`);
-        }
-
-        /* Setelah user pilih → hapus state supaya tidak nyangkut */
-        stateManager.deleteState(ctx.from.id);
     });
 
     // 📦 Contoh: Tombol 1 per baris (ke bawah)
@@ -207,8 +130,8 @@ Silakan pilih menu berikut:`,
     bot.command('link', async (ctx) => {
         try {
             await ctx.reply('🔗 Berikut link penting:', Markup.inlineKeyboard([
-                [Markup.button.url('🌐 Website ZL Store', 'https://zlstore.com')],
-                [Markup.button.url('💬 Join Grup Telegram', 'https://t.me/zlstorecommunity')]
+                [Markup.button.url('🌐 Website ZL Store', 'https://example.com')],
+                [Markup.button.url('💬 Join Grup Telegram', 'https://t.me/expamlegroup')]
             ]));
         } catch (err) {
             console.error(err);
@@ -219,21 +142,13 @@ Silakan pilih menu berikut:`,
     bot.command('about', async (ctx) => {
     try {
         await ctx.reply('ℹ️ Tentang Kami:', Markup.inlineKeyboard([
-            [Markup.button.url('🌐 Website Resmi', 'https://zlstore.com')],
+            [Markup.button.url('🌐 Website Resmi', 'https://example.com')],
             [Markup.button.callback('📞 Hubungi Admin', 'hubungi_admin')]
         ]));
     } catch (err) {
         console.error(err);
     }
     });
-
-    /*
-    ⚠️ Penting: `hubungi_admin` harus diproses di callback.js:
-    case 'hubungi_admin':
-        await ctx.answerCbQuery();
-        await ctx.reply(`👨‍💻 Hubungi Admin: @username_admin`);
-        break;
-    */
 
     bot.command('tesowner', async (ctx) => {
     if (!(await checkRole.isOwner(ctx))) {
