@@ -4,6 +4,7 @@
 | -------------------------- | ------------------------------------------           |
 | `ctx.reply()`              | Kirim pesan teks                                     |
 | `ctx.replyWithPhoto()`     | Kirim gambar/foto                                    |
+
 | `ctx.replyWithVideo()`     | Kirim video                                          |
 | `ctx.answerCbQuery()`      | Mengirim Informasi ke bot bahwa pesan diterima       |
 | `ctx.deleteMessage()`      | Hapus pesan button sebelumnya                        |
