@@ -2,7 +2,7 @@
   <img src="https://socialify.git.ci/Zeallord/Base-Bot-Telegram/image?font=Inter&language=1&name=1&owner=1&pattern=Circuit%20Board&theme=Dark" alt="Base-Bot-Telegram" width="640" height="320" />
 
   <h1>🚀 Base Bot Telegram</h1>
-  <p><i>Boilerplate sederhana dan rapi menggunakan <b>Telegraf.js</b> untuk membangun bot Telegram impianmu.</i></p>
+  <p><i>Boilerplate sederhana dan rapi menggunakan <b>Telegraf</b> untuk membangun bot Telegram impianmu.</i></p>
 
   <p align="center">
     <img src="https://img.shields.io/github/stars/Zeallord/Base-Bot-Telegram?style=for-the-badge&color=gold" alt="stars">
